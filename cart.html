@@ -5,8 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        background-color: #ffcccc;
+        font-family: "Lora", serif;
+      }
+      #data {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+      }
+      #data > div {
+        width: 300px;
+        border: 1px solid slateblue;
+        text-align: center;
+        padding: 20px;
+        font-size: 22px;
+        border-radius: 4px;
+        margin-top: 50px;
+        margin-left: 50px;
+      }
+    </style>
   </head>
   <body>
     <h1>hello</h1>
+    <div id="data"></div>
   </body>
 </html>
+<script>
+  let data = JSON.parse(localStorage.getItem("Cart"))
+  console.log(data)
+  let parent = document.getElementById("data")
+  data.forEach((el) => {
+    let div = document.createElement("div")
+
+    let id = document.createElement("p")
+    id.innerText = el.id
+
+    let name = document.createElement("p")
+    name.innerText = el.name
+
+    let price = document.createElement("p")
+    price.innerText = el.price
+
+    let currency = document.createElement("p")
+    currency.innerText = el.currency
+
+    let button = document.createElement("p")
+    button.innerHTML = `<button onclick= "addfav(${el.id})" >Add to cart</button>`
+    div.append(id, name, price, currency, button)
+    parent.append(div)
+  })
+</script>

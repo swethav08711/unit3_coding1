@@ -35,6 +35,7 @@
 
   <body>
     <h1>Products</h1>
+    <button onclick="show_cart()">Show cart</button>
     <div id="continer"></div>
   </body>
 </html>
@@ -42,9 +43,11 @@
   async function getsports() {
     let res = await fetch("http://localhost:3001/products")
     let data1 = await res.json()
+    localStorage.setItem("Products", JSON.stringify(data1))
     maindata(data1)
   }
   getsports()
+
   function maindata(data) {
     var parent = document.getElementById("continer")
     parent.innerHTML = null
@@ -70,7 +73,27 @@
     })
   }
 
-  function addfav(el) {
-    window.location.href = "./Cart.html"
+  function addfav(id) {
+    let send = JSON.parse(localStorage.getItem("Products"))
+    let element
+    for (var i = 0; i < send.length; i++) {
+      if (send[i].id === id) {
+        element = send[i]
+        break
+      }
+    }
+    console.log("something")
+    let ab = localStorage.getItem("Cart")
+    if (ab == null) {
+      ab = []
+    } else {
+      ab = JSON.parse(ab)
+    }
+    ab.push(element)
+    alert("Item added to cart")
+    localStorage.setItem("Cart", JSON.stringify(ab))
+  }
+  function show_cart() {
+    window.location.href = "./cart.html"
   }
 </script>
