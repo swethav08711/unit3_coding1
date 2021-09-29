@@ -64,9 +64,13 @@
       currency.innerText = el.currency
 
       let button = document.createElement("p")
-      button.innerHTML = `<button onclick= "addfav(${element.id})" >Add to cart</button>`
+      button.innerHTML = `<button onclick= "addfav(${el.id})" >Add to cart</button>`
       div.append(id, name, price, currency, button)
       parent.append(div)
     })
+  }
+
+  function addfav(el) {
+    window.location.href = "./Cart.html"
   }
 </script>
