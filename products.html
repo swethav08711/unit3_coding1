@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Name: <input type="text" id="city" />
+    <button onclick="main()">Show weather</button>
+    <div id="continer"></div>
+  </body>
+</html>
+
+
+<script>
+  var data
+  var parent = document.getElementById("continer")
+  async function main() {
+    data = await getsports()
+    // let som = await data.json()
+    console.log(data)
+    showButton(1)
+  }
+
+  main()
+  async function getsports() {
+    let res = await fetch(
+      "https://fakestoreapi.com/products"
+    )
+    let data1 = await res.json()
+    return data1.articles
+  }
+
+  function showButton(index) {
+    console.log("index:", index)
+    let button_div = document.getElementById("button_div")
+    button_div.innerHTML = null
+
+    if (index <= 6) {
+      index = 6
+    }
+    for (let i = index - 5; i <= index + 1; i++) {
+      let btn = document.createElement("button")
+      btn.innerText = i
+      btn.setAttribute("id", `${i}`)
+      btn.onclick = showData
+      button_div.append(btn)
+    }
+  }
+
+  function showData() {
+    console.log(data)
+    let id = Number(this.id)
+    console.log(data, id)
+    // let num = id - 1
+    let page_data = data.slice(id * 5, id * 10)
+    console.log(page_data)
+
+    parent.innerHTML = null
+    page_data.forEach((el) => {
+      let div = document.createElement("div")
+
+      let author = document.createElement("p")
+      author.innerText = el.author
+
+      let title = document.createElement("p")
+      title.innerText = el.title
+
+      let description = document.createElement("p")
+      description.innerText = el.description
+
+      let publishedAt = document.createElement("p")
+      publishedAt.innerText = el.publishedAt
+      let urlToImage = document.createElement("p")
+      urlToImage.setAttribute("class", "p_img")
+
+      if (el.urlToImage == null) {
+        let urlToImage11 = document.createElement("img")
+        urlToImage11.src =
+          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+        urlToImage.append(urlToImage11)
+      } else {
+        let urlToImage12 = document.createElement("img")
+        urlToImage12.src = el.urlToImage
+        urlToImage.append(urlToImage12)
+      }
+
+      div.append(title, description, urlToImage, author, publishedAt)
+      parent.append(div)
+    })
+    showButton(id)
+  }
