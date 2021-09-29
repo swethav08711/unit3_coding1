@@ -5,90 +5,68 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        background-color: #ffcccc;
+        font-family: "Lora", serif;
+      }
+      #continer {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+      }
+      #continer > div {
+        width: 300px;
+        border: 1px solid slateblue;
+        text-align: center;
+        padding: 20px;
+        font-size: 22px;
+        border-radius: 4px;
+        margin-top: 50px;
+        margin-left: 50px;
+      }
+    </style>
   </head>
+
   <body>
-    Name: <input type="text" id="city" />
-    <button onclick="main()">Show weather</button>
+    <h1>Products</h1>
     <div id="continer"></div>
   </body>
 </html>
-
-
 <script>
-  var data
-  var parent = document.getElementById("continer")
-  async function main() {
-    data = await getsports()
-    // let som = await data.json()
-    console.log(data)
-    showButton(1)
-  }
-
-  main()
   async function getsports() {
-    let res = await fetch(
-      "https://fakestoreapi.com/products"
-    )
+    let res = await fetch("http://localhost:3001/products")
     let data1 = await res.json()
-    return data1.articles
+    maindata(data1)
   }
-
-  function showButton(index) {
-    console.log("index:", index)
-    let button_div = document.getElementById("button_div")
-    button_div.innerHTML = null
-
-    if (index <= 6) {
-      index = 6
-    }
-    for (let i = index - 5; i <= index + 1; i++) {
-      let btn = document.createElement("button")
-      btn.innerText = i
-      btn.setAttribute("id", `${i}`)
-      btn.onclick = showData
-      button_div.append(btn)
-    }
-  }
-
-  function showData() {
-    console.log(data)
-    let id = Number(this.id)
-    console.log(data, id)
-    // let num = id - 1
-    let page_data = data.slice(id * 5, id * 10)
-    console.log(page_data)
-
+  getsports()
+  function maindata(data) {
+    var parent = document.getElementById("continer")
     parent.innerHTML = null
-    page_data.forEach((el) => {
+    data.forEach((el) => {
       let div = document.createElement("div")
 
-      let author = document.createElement("p")
-      author.innerText = el.author
+      let id = document.createElement("p")
+      id.innerText = el.id
 
-      let title = document.createElement("p")
-      title.innerText = el.title
+      let name = document.createElement("p")
+      name.innerText = el.name
 
-      let description = document.createElement("p")
-      description.innerText = el.description
+      let price = document.createElement("p")
+      price.innerText = el.price
 
-      let publishedAt = document.createElement("p")
-      publishedAt.innerText = el.publishedAt
-      let urlToImage = document.createElement("p")
-      urlToImage.setAttribute("class", "p_img")
+      let currency = document.createElement("p")
+      currency.innerText = el.currency
 
-      if (el.urlToImage == null) {
-        let urlToImage11 = document.createElement("img")
-        urlToImage11.src =
-          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-        urlToImage.append(urlToImage11)
-      } else {
-        let urlToImage12 = document.createElement("img")
-        urlToImage12.src = el.urlToImage
-        urlToImage.append(urlToImage12)
-      }
-
-      div.append(title, description, urlToImage, author, publishedAt)
+      let button = document.createElement("p")
+      button.innerHTML = `<button onclick= "addfav(${element.id})" >Add to cart</button>`
+      div.append(id, name, price, currency, button)
       parent.append(div)
     })
-    showButton(id)
   }
+</script>
